@@ -149,4 +149,5 @@ createAds();
 
 const similarAds = Array.from({length: COUNT_ADS}, createAds);
 
-similarAds;
+const getSimilarAds = similarAds;
+getSimilarAds();
