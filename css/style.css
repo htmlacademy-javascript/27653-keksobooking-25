@@ -1028,3 +1028,8 @@ fieldset {
 .hidden {
   display: none;
 }
+
+.pristine-error {
+  color: #ff6d51;
+  padding-top: 5px;
+}
