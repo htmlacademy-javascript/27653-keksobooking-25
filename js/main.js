@@ -1,7 +1,6 @@
 import {renderCard} from './card.js';
 import {similarAds} from './mock.js';
-import {blockForm, unblockForm} from './form.js';
+import './form.js';
+import './validation.js';
 
-renderCard(similarAds);
-blockForm();
-unblockForm();
+renderCard(similarAds[0]);
