@@ -38,13 +38,10 @@ const mainPin = L.marker(
   {
     lat: LAT_CENTER,
     lng: LNG_CENTER,
-    draggable: true,
-    autoPan: true,
-    autoPanPadding: [500, 500]
   },
   {
-    draggable: true,
     icon: mainPinIcon,
+    draggable: true,
   },
 );
 
