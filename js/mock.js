@@ -57,7 +57,7 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
 ];
 
-const MAX_PRICE = 100000;
+const MAX_ROOM_PRICE = 100000;
 
 const COUNT_ROOMS = 100;
 
@@ -81,7 +81,7 @@ const createAd = (idx) => {
     offer: {
       title: getRandomElement(TITLES),
       address: `${lat}, ${lng}`,
-      price: getRandomPositiveNumber(0, MAX_PRICE),
+      price: getRandomPositiveNumber(0, MAX_ROOM_PRICE),
       type: getRandomElement(TYPES),
       rooms: getRandomPositiveNumber(1, COUNT_ROOMS),
       guests: getRandomPositiveNumber(0, COUNT_GUESTS),
@@ -101,4 +101,4 @@ const createAd = (idx) => {
 
 const similarAds = Array.from({length: COUNT_ADS}).map((item, idx) => createAd(idx));
 
-export{similarAds};
+export{similarAds, createAd, MAX_ROOM_PRICE};

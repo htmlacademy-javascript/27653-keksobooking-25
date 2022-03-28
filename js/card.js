@@ -17,7 +17,6 @@ const addContent = (item, value) => {
 
 const renderCard = ({author, offer}) => {
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
-  const map = document.querySelector('#map-canvas');
   const similarAdsFragment = document.createDocumentFragment();
   const card = cardTemplate.cloneNode(true);
 
@@ -67,7 +66,7 @@ const renderCard = ({author, offer}) => {
   }
 
   similarAdsFragment.appendChild(card);
-  map.append(similarAdsFragment);
+  return card;
 };
 
 export {renderCard};
