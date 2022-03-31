@@ -1,11 +1,15 @@
-import {MAX_ROOM_PRICE} from './mock.js';
+import {resetPin} from './map.js';
+import {sendData} from './api.js';
+import {showSuccessModal, showErrorModal} from './modal.js';
 /* eslint-disable quotes */
+
 const form = document.querySelector('.ad-form');
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 
 const MIN_ROOM_PRICE = 0;
+const MAX_ROOM_PRICE = 100000;
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -107,10 +111,41 @@ const onTimeChange = (evt) => {
 timeOut.addEventListener('change', onTimeChange);
 timeIn.addEventListener('change', onTimeChange);
 
+const submitButton = document.querySelector('.ad-form__submit');
+
+const toggleButtons = (isBlock) => {
+  submitButton.disabled = isBlock;
+};
+
+const resetButton = document.querySelector('.ad-form__reset');
+
+const resetForm = () => {
+  form.reset();
+  resetPin();
+  priceSlider.noUiSlider.reset();
+};
+
+resetButton.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
+});
+
+const onSuccess = () => {
+  resetForm();
+  showSuccessModal();
+  toggleButtons(false);
+};
+
+const onError = (err) => {
+  showErrorModal(err);
+  toggleButtons(false);
+};
+
 form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
   const isValid = pristine.validate();
-  if(!isValid){
-    evt.preventDefault();
+  if (isValid) {
+    toggleButtons(true);
+    sendData(onSuccess, onError, new FormData(evt.target));
   }
-}
-);
+});
