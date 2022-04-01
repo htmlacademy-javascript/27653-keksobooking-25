@@ -1,6 +1,6 @@
 import {toggleForm} from './form.js';
-import {similarAds} from './mock.js';
 import {renderCard} from './card.js';
+import {loadData} from './api.js';
 
 const LAT_CENTER = 35.652832;
 const LNG_CENTER = 139.839478;
@@ -9,9 +9,9 @@ const SCALE = 12;
 const MAIN_PIN_SIZE = 52;
 const AD_PIN_SIZE = 40;
 
-const address = document.querySelector('#address');
+const COUNT_ADS = 10;
 
-toggleForm(true);
+const address = document.querySelector('#address');
 
 const mapCanvas = L.map('map-canvas').on('load', () => {
   toggleForm(false);
@@ -84,4 +84,36 @@ const createGroupMarkers = (points) => {
     createMarker(point);
   });
 };
-createGroupMarkers(similarAds);
+
+const resetPin = () => {
+  mainPin.setLatLng({
+    lat: LAT_CENTER,
+    lng: LNG_CENTER,
+  });
+  mapCanvas.setView({
+    lat: LAT_CENTER,
+    lng: LNG_CENTER,
+  }, SCALE);
+  address.value = `${mainPin.getLatLng().lat}, ${mainPin.getLatLng().lng} `;
+  markerGroup.clearLayers();
+};
+
+const onSuccess  = (data) => {
+  data = data.slice(0, COUNT_ADS);
+  createGroupMarkers(data);
+};
+
+const alertMessage = (err) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.classList.add('error-container');
+  alertContainer.textContent = err;
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, 5000);
+};
+
+loadData(onSuccess, alertMessage);
+
+export {resetPin};

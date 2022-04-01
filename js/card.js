@@ -8,7 +8,7 @@ const RoomsType = {
 };
 
 const addContent = (item, value) => {
-  if(value && !value.includes('undefined')){
+  if(value){
     item.textContent = value;
   } else {
     item.remove();
@@ -31,39 +31,35 @@ const renderCard = ({author, offer}) => {
   addContent(card.querySelector('.popup__text--time'), `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`);
 
   const list = card.querySelector('.popup__features');
-  offer.features.map((item) => {
-    const li = document.createElement('li');
-    li.classList.add('popup__feature', `popup__feature--${item}`);
-    li.textContent = item;
-    if (li.classList.contains('popup__feature--undefined')) {
-      li.remove();
-    } else {
+  const addFeatures = (features) => {
+    for(const key in features) {
+      const li = document.createElement('li');
+      li.classList.add('popup__feature', `popup__feature--${features[key]}`);
+      li.textContent = features[key];
       list.appendChild(li);
     }
-  });
-
-  if (!list.innerHTML) {
-    list.remove();
-  }
+    if (!features) {
+      list.remove();
+    }
+  };
+  addFeatures(offer.features);
 
   const gallery = card.querySelector('.popup__photos');
-  offer.photos.forEach((item) => {
-    if (item) {
+  const addPhotos = (photos) => {
+    for(const key in photos){
       const cardPhoto = document.createElement('img');
       cardPhoto.classList.add('popup__photo');
-      cardPhoto.src = item;
+      cardPhoto.src = photos[key];
       cardPhoto.width = 45;
       cardPhoto.height = 40;
       cardPhoto.alt = 'Фотография жилья';
       gallery.appendChild(cardPhoto);
-    } else {
+    }
+    if(!photos) {
       gallery.remove();
     }
-  });
-
-  if (!gallery.innerHTML) {
-    gallery.remove();
-  }
+  };
+  addPhotos(offer.photos);
 
   similarAdsFragment.appendChild(card);
   return card;
