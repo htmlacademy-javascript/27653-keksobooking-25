@@ -1,6 +1,9 @@
 import {resetPin} from './map.js';
 import {sendData} from './api.js';
 import {showSuccessModal, showErrorModal} from './modal.js';
+import {resetPhotos} from './photo.js';
+import {filters} from './form.js';
+
 /* eslint-disable quotes */
 
 const form = document.querySelector('.ad-form');
@@ -121,7 +124,9 @@ const resetButton = document.querySelector('.ad-form__reset');
 
 const resetForm = () => {
   form.reset();
+  filters.reset();
   resetPin();
+  resetPhotos();
   priceSlider.noUiSlider.reset();
 };
 

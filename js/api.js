@@ -1,5 +1,8 @@
+const LOAD_LINK = 'https://25.javascript.pages.academy/keksobooking/data';
+const SEND_LINK = 'https://25.javascript.pages.academy/keksobooking';
+
 const loadData = (onSuccess, onError) => {
-  fetch('https://25.javascript.pages.academy/keksobooking/data',
+  fetch(LOAD_LINK,
     {
       method: 'GET',
     }
@@ -11,12 +14,12 @@ const loadData = (onSuccess, onError) => {
       throw new Error(`${response.status} ${response.statusText}`);
     })
     .then((data) => onSuccess(data))
-    .catch(() => onError('Не удалось загрузить объявления. Попробуйте ещё раз'));
+    .catch(() => onError());
 };
 
 
 const sendData = (onSuccess, onError, body) => {
-  fetch('https://25.javascript.pages.academy/keksobooking', {
+  fetch(SEND_LINK, {
     method: 'POST',
     body,
   })
@@ -27,7 +30,7 @@ const sendData = (onSuccess, onError, body) => {
         onError();
       }
     })
-    .catch(() => onError('Не удалось отправить форму. Попробуйте еще раз'));
+    .catch(() => onError());
 };
 
 export {loadData, sendData};

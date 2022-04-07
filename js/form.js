@@ -8,11 +8,18 @@ const fieldsArray = [...filterFields, ...formFields];
 const toggleForm = (isBlock) => {
   form.classList.toggle('ad-form--disabled', isBlock);
   filters.classList.toggle('ad-form--disabled', isBlock);
-  fieldsArray.forEach((item)=>{
+  fieldsArray.forEach((item) => {
     item.disabled = isBlock;
   });
 };
 
 toggleForm(true);
 
-export {toggleForm};
+const blockFilters = (isBlock) => {
+  filters.classList.add('ad-form--disabled');
+  filterFields.forEach((item) => {
+    item.disabled = isBlock;
+  });
+};
+
+export {toggleForm, blockFilters, filters};
