@@ -1,6 +1,8 @@
-import {toggleForm} from './form.js';
+import {toggleForm, blockFilters} from './form.js';
 import {renderCard} from './card.js';
 import {loadData} from './api.js';
+import {getFilter, compareFeatures, resetFiltres, changeFilters} from './filter.js';
+import {debounce} from './utils.js';
 
 const LAT_CENTER = 35.652832;
 const LNG_CENTER = 139.839478;
@@ -9,7 +11,8 @@ const SCALE = 12;
 const MAIN_PIN_SIZE = 52;
 const AD_PIN_SIZE = 40;
 
-const COUNT_ADS = 10;
+const MESSAGE_DELAY = 5000;
+const TIMEOUT_DELAY = 500;
 
 const address = document.querySelector('#address');
 
@@ -80,7 +83,8 @@ const createMarker = (point) => {
 };
 
 const createGroupMarkers = (points) => {
-  points.forEach((point) => {
+  markerGroup.clearLayers();
+  points.slice().filter(getFilter).slice(0, 10).sort(compareFeatures).forEach((point) => {
     createMarker(point);
   });
 };
@@ -93,14 +97,9 @@ const resetPin = () => {
   mapCanvas.setView({
     lat: LAT_CENTER,
     lng: LNG_CENTER,
-  }, SCALE);
-  address.value = `${mainPin.getLatLng().lat}, ${mainPin.getLatLng().lng} `;
+  }, SCALE).closePopup();
+  address.value = `${mainPin.getLatLng().lat}, ${mainPin.getLatLng().lng}`;
   markerGroup.clearLayers();
-};
-
-const onSuccess  = (data) => {
-  data = data.slice(0, COUNT_ADS);
-  createGroupMarkers(data);
 };
 
 const alertMessage = (err) => {
@@ -111,9 +110,22 @@ const alertMessage = (err) => {
 
   setTimeout(() => {
     alertContainer.remove();
-  }, 5000);
+  }, MESSAGE_DELAY);
 };
 
-loadData(onSuccess, alertMessage);
+const onSuccess  = (points) => {
+  createGroupMarkers(points);
+  changeFilters(debounce(() => createGroupMarkers(points),
+    TIMEOUT_DELAY,
+  ));
+  resetFiltres(() => createGroupMarkers(points));
+};
+
+const onError = () => {
+  blockFilters();
+  alertMessage('Не удалось загрузить данные. Попробуйте еще раз.');
+};
+
+loadData(onSuccess, onError);
 
 export {resetPin};
