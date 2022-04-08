@@ -1,16 +1,18 @@
+import {createMarker} from './map.js';
+
 const filters = document.querySelector('.map__filters');
 const housingType = filters.querySelector('#housing-type');
 const housingPrice = filters.querySelector('#housing-price');
 const housingRooms = filters.querySelector('#housing-rooms');
 const housingGuests = filters.querySelector('#housing-guests');
 const housingFeatures = filters.querySelector('#housing-features');
-const featuresFields = housingFeatures.querySelectorAll('map__checkbox');
 
 const DEFAULT = 'any';
 const MIN_PRICE = 10000;
 const MAX_PRICE = 50000;
 
 const RESET_TIMEOUT = 500;
+const COUNT_ADS = 10;
 
 const filterPrice = (price) => {
   if (price > MAX_PRICE) {
@@ -32,28 +34,21 @@ const filterFeatures = (features=[]) => {
 
 const filterValue = (input, card) => input.value === card || Number(input.value) === card || input.value === DEFAULT;
 
-const getFilter = ({offer}) =>
-  filterValue(housingType, offer.type) && filterValue(housingPrice, filterPrice(offer.price)) &&
-  filterValue(housingRooms, offer.rooms) && filterValue(housingGuests, offer.guests) &&
-  filterFeatures(offer.features);
+const filterCards = (card) => filterValue(housingType, card.offer.type) && filterValue(housingPrice, filterPrice(card.offer.price)) &&
+  filterValue(housingRooms, card.offer.rooms) && filterValue(housingGuests, card.offer.guests) &&
+  filterFeatures(card.offer.features);
 
-
-const getRank = ({offer}) => {
-  let rank = 0;
-  if (offer.features) {
-    featuresFields.forEach((feature) => {
-      if (offer.features.includes(feature.value)) {
-        rank += 1;
-      }
-    });
+const getFilter = (data) => {
+  const ads = [];
+  for (let i = 0; i < data.length; i++) {
+    if (filterCards(data[i])) {
+      createMarker(data[i]);
+      ads.push(data[i]);
+    }
+    if (ads.length === COUNT_ADS) {
+      break;
+    }
   }
-  return rank;
-};
-
-const compareFeatures = (featureA, featureB) => {
-  const rankA = getRank(featureA);
-  const rankB = getRank(featureB);
-  return rankB - rankA;
 };
 
 const resetFiltres = (cb) => {
@@ -64,4 +59,4 @@ const changeFilters = (cb) => {
   filters.addEventListener('change', cb);
 };
 
-export {resetFiltres, getFilter, changeFilters, compareFeatures};
+export {resetFiltres, getFilter, changeFilters};

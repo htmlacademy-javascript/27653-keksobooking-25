@@ -1,8 +1,5 @@
-const LOAD_LINK = 'https://25.javascript.pages.academy/keksobooking/data';
-const SEND_LINK = 'https://25.javascript.pages.academy/keksobooking';
-
-const loadData = (onSuccess, onError) => {
-  fetch(LOAD_LINK,
+const loadData = (link, onSuccess, onError) => {
+  fetch(link,
     {
       method: 'GET',
     }
@@ -18,8 +15,8 @@ const loadData = (onSuccess, onError) => {
 };
 
 
-const sendData = (onSuccess, onError, body) => {
-  fetch(SEND_LINK, {
+const sendData = (link, onSuccess, onError, body) => {
+  fetch(link, {
     method: 'POST',
     body,
   })
