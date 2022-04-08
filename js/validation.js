@@ -14,6 +14,8 @@ const MAX_TITLE_LENGTH = 100;
 const MIN_ROOM_PRICE = 0;
 const MAX_ROOM_PRICE = 100000;
 
+const SEND_LINK = 'https://25.javascript.pages.academy/keksobooking';
+
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
@@ -151,6 +153,6 @@ form.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
   if (isValid) {
     toggleButtons(true);
-    sendData(onSuccess, onError, new FormData(evt.target));
+    sendData(SEND_LINK, onSuccess, onError, new FormData(evt.target));
   }
 });

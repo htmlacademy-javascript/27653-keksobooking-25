@@ -1,7 +1,7 @@
 import {toggleForm, blockFilters} from './form.js';
 import {renderCard} from './card.js';
 import {loadData} from './api.js';
-import {getFilter, compareFeatures, resetFiltres, changeFilters} from './filter.js';
+import {getFilter, resetFiltres, changeFilters} from './filter.js';
 import {debounce} from './utils.js';
 
 const LAT_CENTER = 35.652832;
@@ -13,6 +13,8 @@ const AD_PIN_SIZE = 40;
 
 const MESSAGE_DELAY = 5000;
 const TIMEOUT_DELAY = 500;
+
+const LOAD_LINK = 'https://25.javascript.pages.academy/keksobooking/data';
 
 const address = document.querySelector('#address');
 
@@ -84,9 +86,7 @@ const createMarker = (point) => {
 
 const createGroupMarkers = (points) => {
   markerGroup.clearLayers();
-  points.slice().filter(getFilter).slice(0, 10).sort(compareFeatures).forEach((point) => {
-    createMarker(point);
-  });
+  getFilter(points);
 };
 
 const resetPin = () => {
@@ -126,6 +126,6 @@ const onError = () => {
   alertMessage('Не удалось загрузить данные. Попробуйте еще раз.');
 };
 
-loadData(onSuccess, onError);
+loadData(LOAD_LINK, onSuccess, onError);
 
-export {resetPin};
+export {resetPin, createMarker};
