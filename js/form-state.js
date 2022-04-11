@@ -4,7 +4,6 @@ const filters = document.querySelector('.map__filters');
 const filterFields = filters.querySelectorAll('fieldset, select');
 const fieldsArray = [...filterFields, ...formFields];
 
-
 const toggleForm = (isBlock) => {
   form.classList.toggle('ad-form--disabled', isBlock);
   filters.classList.toggle('ad-form--disabled', isBlock);
@@ -22,4 +21,4 @@ const blockFilters = (isBlock) => {
   });
 };
 
-export {toggleForm, blockFilters, filters};
+export {toggleForm, blockFilters, filters, form};

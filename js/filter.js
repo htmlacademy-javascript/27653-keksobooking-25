@@ -1,11 +1,5 @@
 import {createMarker} from './map.js';
-
-const filters = document.querySelector('.map__filters');
-const housingType = filters.querySelector('#housing-type');
-const housingPrice = filters.querySelector('#housing-price');
-const housingRooms = filters.querySelector('#housing-rooms');
-const housingGuests = filters.querySelector('#housing-guests');
-const housingFeatures = filters.querySelector('#housing-features');
+import {filters} from './form-state.js';
 
 const DEFAULT = 'any';
 const MIN_PRICE = 10000;
@@ -13,6 +7,12 @@ const MAX_PRICE = 50000;
 
 const RESET_TIMEOUT = 500;
 const COUNT_ADS = 10;
+
+const housingType = filters.querySelector('#housing-type');
+const housingPrice = filters.querySelector('#housing-price');
+const housingRooms = filters.querySelector('#housing-rooms');
+const housingGuests = filters.querySelector('#housing-guests');
+const housingFeatures = filters.querySelector('#housing-features');
 
 const filterPrice = (price) => {
   if (price > MAX_PRICE) {
@@ -27,8 +27,8 @@ const filterPrice = (price) => {
 };
 
 const filterFeatures = (features=[]) => {
-  const checked = Array.from(housingFeatures.querySelectorAll(':checked'));
-  const featureValue = checked.map((feature) => feature.value);
+  const checkboxes = Array.from(housingFeatures.querySelectorAll(':checked'));
+  const featureValue = checkboxes.map((feature) => feature.value);
   return  featureValue.every((feature) => features.includes(feature));
 };
 
@@ -38,7 +38,7 @@ const filterCards = (card) => filterValue(housingType, card.offer.type) && filte
   filterValue(housingRooms, card.offer.rooms) && filterValue(housingGuests, card.offer.guests) &&
   filterFeatures(card.offer.features);
 
-const getFilter = (data) => {
+const runFilter = (data) => {
   const ads = [];
   for (let i = 0; i < data.length; i++) {
     if (filterCards(data[i])) {
@@ -59,4 +59,4 @@ const changeFilters = (cb) => {
   filters.addEventListener('change', cb);
 };
 
-export {resetFiltres, getFilter, changeFilters};
+export {resetFiltres, runFilter, changeFilters};

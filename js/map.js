@@ -1,7 +1,7 @@
-import {toggleForm, blockFilters} from './form.js';
+import {toggleForm, blockFilters} from './form-state.js';
 import {renderCard} from './card.js';
 import {loadData} from './api.js';
-import {getFilter, resetFiltres, changeFilters} from './filter.js';
+import {runFilter, resetFiltres, changeFilters} from './filter.js';
 import {debounce} from './utils.js';
 
 const LAT_CENTER = 35.652832;
@@ -86,7 +86,7 @@ const createMarker = (point) => {
 
 const createGroupMarkers = (points) => {
   markerGroup.clearLayers();
-  getFilter(points);
+  runFilter(points);
 };
 
 const resetPin = () => {

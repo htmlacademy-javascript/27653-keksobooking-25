@@ -5,42 +5,42 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showSuccessModal = () => {
   document.body.appendChild(successModal);
-  const keydownHandler = (evt) => {
+  const onKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       successModal.remove();
-      document.removeEventListener('keydown', keydownHandler);
+      document.removeEventListener('keydown', onKeydown);
     }
   };
 
-  document.addEventListener('keydown', keydownHandler);
+  document.addEventListener('keydown', onKeydown);
 
   successModal.addEventListener('click', () => {
     successModal.remove();
-    document.removeEventListener('keydown', keydownHandler);
+    document.removeEventListener('keydown', onKeydown);
   });
 };
 
 const showErrorModal = () => {
   document.body.appendChild(errorModal);
-  const keydownHandler = (evt) => {
+  const onKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       errorModal.remove();
-      document.removeEventListener('keydown', keydownHandler);
+      document.removeEventListener('keydown', onKeydown);
     }
   };
 
-  document.addEventListener('keydown', keydownHandler);
+  document.addEventListener('keydown', onKeydown);
 
   errorButton.addEventListener('click', () => {
     errorModal.remove();
-    document.removeEventListener('keydown', keydownHandler);
+    document.removeEventListener('keydown', onKeydown);
   });
 
   errorModal.addEventListener('click', () => {
     errorModal.remove();
-    document.removeEventListener('keydown', keydownHandler);
+    document.removeEventListener('keydown', onKeydown);
   });
 };
 

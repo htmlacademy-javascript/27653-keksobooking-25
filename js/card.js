@@ -19,6 +19,8 @@ const renderCard = ({author, offer}) => {
   const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   const similarAdsFragment = document.createDocumentFragment();
   const card = cardTemplate.cloneNode(true);
+  const list = card.querySelector('.popup__features');
+  const gallery = card.querySelector('.popup__photos');
 
   card.querySelector('.popup__avatar').src = author.avatar;
   card.querySelector('.popup__title').textContent = offer.title;
@@ -30,7 +32,6 @@ const renderCard = ({author, offer}) => {
   addContent(card.querySelector('.popup__text--capacity'), `${offer.rooms} комнаты для ${offer.guests} гостей`);
   addContent(card.querySelector('.popup__text--time'), `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`);
 
-  const list = card.querySelector('.popup__features');
   const addFeatures = (features) => {
     for(const key in features) {
       const li = document.createElement('li');
@@ -44,7 +45,6 @@ const renderCard = ({author, offer}) => {
   };
   addFeatures(offer.features);
 
-  const gallery = card.querySelector('.popup__photos');
   const addPhotos = (photos) => {
     for(const key in photos){
       const cardPhoto = document.createElement('img');
